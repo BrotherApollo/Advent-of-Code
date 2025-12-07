@@ -12,7 +12,7 @@ def getTestData():
   6 98  215 314
 *   +   *   +  """
 
-def organizeData(data: str) -> dict:
+def organizeData(data: str):
     rows = []
     for row in data.split("\n"):
         rows.append([x for x in row.split(" ") if x])
