@@ -1,5 +1,4 @@
-from collections import deque
-from datetime import datetime
+from collections import defaultdict
 
 def getData(test=False):
     if test:
@@ -48,8 +47,6 @@ beams = sum([x=="|" for x in data[-1]])
 print(f"Part one: {splits}")
 
 data = getData(test=False)
-
-from collections import defaultdict
 
 paths = defaultdict(lambda: defaultdict(int))
 
