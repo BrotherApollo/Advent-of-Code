@@ -1,7 +1,12 @@
 import numpy as np 
 from copy import deepcopy
 
-test = """##########
+def setData(test=False):
+    global grid_str
+    global commands
+    global raw_grid
+    if test:
+        data = """##########
 #..O..O.O#
 #......O.#
 #.OO..O.O#
@@ -22,14 +27,14 @@ vvv<<^>^v^^><<>>><>^<<><^vv^^<>vvv<>><^^v>^>vv<>v<<<<v<^v>^<^^>>>^<v<v
 <><^^>^^^<><vvvvv^v<v<<>^v<v>v<<^><<><<><<<^^<<<^<<>><<><^^^>^^<>^>v<>
 ^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>
 v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^""".split("\n\n")
-
-with open("input/day15.txt", "r") as file:
-    data = file.read().split("\n\n")
-    
-grid_str = data[0]
-commands = [x for x in data[1] if x != "\n"]
-
-raw_grid = np.array([list(x) for x in grid_str.split("\n")])
+    else:
+        with open("Advent-of-Code/2024/data/15.txt", "r") as file:
+            data = file.read().split("\n\n")
+    # Setting global data variables
+    grid_str = data[0]
+    commands = [x for x in data[1] if x != "\n"]
+    raw_grid = np.array([list(x) for x in grid_str.split("\n")])
+    return
 
 class Bot():
     def __init__(self, row, col, _type):
@@ -140,6 +145,10 @@ class Da_Map():
             populated_grid.append(new_row)
         return np.array(populated_grid)
 
-Map = Da_Map(raw_grid=raw_grid, commands=commands)
-print(Map)
-print(Map.score)
+# setData()
+# Part1 = Da_Map(raw_grid=raw_grid, commands=commands)
+# print(Part1)
+# print(f"Part One: {Part1.score}")
+
+setData(test=True)
+Part2 = Da_Map(raw_grid=raw_grid, commands=commands)
