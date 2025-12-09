@@ -1,3 +1,7 @@
+from shapely.geometry import MultiPoint, Polygon
+from shapely.validation import explain_validity
+
+# Testing
 test = """7,1
 11,1
 11,7
@@ -24,15 +28,13 @@ for row in range(rows+1):
 for row in grid:
     print("".join(row))
 
-
+# Part One
 def squaresize(a, b):
     height = abs(a[1] -b[1]) + 1
     width = abs(a[0] -b[0]) + 1
     # print(height)
     # print(width)
     return width * height
-
-print(squaresize(test[0], test[1]))
 
 def findBiggest(data):
     biggest = 0
@@ -50,20 +52,13 @@ with open("./2025/data/9.txt", 'r') as file:
 print(f"Part One: {findBiggest(data)}")
 
 #Part two
-
-from shapely.geometry import MultiPoint, Polygon
-from shapely import wkt
-
 bigpoly = Polygon(data)
 
 print(f"Is valid: {bigpoly.is_valid}")
-print(f"Is simple (no self-intersections): {bigpoly.is_simple}")
+print(f"Is simple: {bigpoly.is_simple}")
 
 if not bigpoly.is_valid:
-    from shapely.validation import explain_validity
     print(f"Validity issue: {explain_validity(bigpoly)}")
-
-# print(bigpoly)
 
 points = MultiPoint(data)
 hull = points.convex_hull
