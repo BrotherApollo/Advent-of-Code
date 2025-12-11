@@ -26,7 +26,7 @@ fff: ggg hhh
 ggg: out
 hhh: out""".splitlines()
 
-with open("Advent-of-Code/2025/data/11.txt", 'r') as file:
+with open("./2025/data/11.txt", 'r') as file:
     data = file.read().split("\n")
 
 mapping = {}
@@ -73,7 +73,19 @@ def checkPath(path, required):
             
     return True
 
-def partTwo(current:str, path:list, visited:set, required:list, mapping:dict):
+def partTwo(current:str,
+            path:list,
+            visited:set,
+            required:list,
+            mapping:dict,
+            memory:dict
+            ):
+    # Caching
+    seen_required = frozenset([node for node in required if node in path])
+    memo_key = (current, seen_required)
+    if memo_key in memory:
+        return memory[memo_key]
+
     # Base Case
     if current == "out":
         if all(node in path for node in required):
@@ -89,16 +101,19 @@ def partTwo(current:str, path:list, visited:set, required:list, mapping:dict):
     # recursion bit
     total = 0
     visited.add(current)
-    for neighbor in mapping.get(current):
+    for neighbor in mapping.get(current, []):
         total += partTwo(
             current=neighbor,
             path=path + [current],
             visited=visited, 
             required=required,
-            mapping=mapping
+            mapping=mapping,
+            memory=memory
         )
     # Backtracking
     visited.remove(current)
+    
+    memory[memo_key] = total
     return total
     
 print(f"Part One: {partOne(mapping)}")
@@ -107,7 +122,8 @@ partTwoResult = partTwo(
     path=[],
     visited=set(),
     required=["dac", "fft"],
-    mapping=mapping
+    mapping=mapping,
+    memory={},
 )
 print(f"Part Two: {partTwoResult}")
 
